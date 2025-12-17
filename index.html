@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Nejrychlejší prst</title>
+<style>
+    body { font-family: Arial; padding: 20px; }
+    input { padding: 6px; width: 250px; margin-top: 5px; }
+    button { padding: 10px 20px; margin-top: 15px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h1>Nejrychlejší prst</h1>
+
+<div id="startBox">
+    <p><b>Klikni na start a až se objeví formulář, co nejrychleji odpověz.</b></p>
+    <label>Jméno:</label><br>
+    <input id="jmeno"><br><br>
+    <button onclick="startTimer()">START</button>
+</div>
+
+<div id="formBox" style="display:none;">
+    <p><b>Otázka:</b> Seřaď od nejdříve k nejpozději:<br>A) Večeře<br>B) Oběd<br>C) Snídaně<br>D) Svačina</p>
+
+    <label>Odpověď (např. ADCB):</label><br>
+    <input id="odpoved"><br><br>
+
+    <button onclick="submitAnswer()">Odeslat</button>
+</div>
+
+<div id="resultBox"></div>
+
+<script>
+let startTime = 0;
+
+function startTimer() {
+    document.getElementById("startBox").style.display = "none";
+    document.getElementById("formBox").style.display = "block";
+    startTime = performance.now();
+}
+
+function submitAnswer() {
+    let endTime = performance.now();
+    let time = ((endTime - startTime) / 1000).toFixed(3);
+
+    let jmeno = document.getElementById("jmeno").value;
+    let odpoved = document.getElementById("odpoved").value.trim().toUpperCase();
+
+    let spravna = "CBDA";
+    let ok = (odpoved === spravna);
+
+    document.getElementById("formBox").style.display = "none";
+
+    document.getElementById("resultBox").innerHTML = `
+        <h2>Výsledek</h2>
+        Jméno: ${jmeno}<br>
+        Odpověď: ${odpoved}<br>
+        Čas: <b>${time} s</b><br>
+        Správně: <b>${ok ? "ANO ✔" : "NE ✖"}</b>
+    `;
+}
+</script>
+
+</body>
+</html>
